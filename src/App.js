@@ -1,7 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-
-function App() {
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Exception from './pages/Exception';
+const Default = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -19,6 +21,22 @@ function App() {
         </a>
       </header>
     </div>
+  )
+}
+
+function App() {
+  return ( 
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={ <Default/> }/>
+        <Route path='/Home' element={ <Home/> }/>
+        <Route path='/forms' element={ <Exception message="Not-implemented"/> }/>
+        <Route path='/form' element={ <Exception message="Not-implemented"/> }/>
+        <Route path='/find' element={ <Exception message="Not-implemented"/> }/>
+        <Route path='/register' element={ <Exception message="Not-implemented"/> }/>
+        <Route path='/login' element={ <Exception message="Not-implemented"/> }/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
