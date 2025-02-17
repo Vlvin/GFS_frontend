@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Exception from './pages/Exception';
+import Login from './pages/Login';
 const Default = () => {
   return (
     <div className="App">
@@ -34,7 +35,7 @@ function App() {
         <Route path='/form' element={ <Exception message="Not-implemented"/> }/>
         <Route path='/find' element={ <Exception message="Not-implemented"/> }/>
         <Route path='/register' element={ <Exception message="Not-implemented"/> }/>
-        <Route path='/login' element={ <Exception message="Not-implemented"/> }/>
+        <Route path='/login' element={ <Login/> }/>
       </Routes>
     </BrowserRouter>
   );
