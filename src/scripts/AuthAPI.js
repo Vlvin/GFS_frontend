@@ -16,16 +16,19 @@ export default class AuthAPI {
     }
     async register(username, email, password) {
         try {
-            const response = await API.post('/Register', JSON.stringify({
+            const response = await API.post('/Register', {
                 username: username,
                 email: email,
                 password: password
-            }));
+            });
+            if (response.status !== 200) {
+                return false
+            }
             localStorage.setItem("token", response.data.token);
         } catch (error) {
-            // alert(error.response?.data?.message || "Something went wrong!");
+            return false
         }
-        // return token;
+        return true
     }
     async login(email, password) {
         try {
@@ -39,11 +42,10 @@ export default class AuthAPI {
             console.log(response);
             const token = response.data.token;
             localStorage.setItem("token", token);
-            return true
         } catch (error) {
-            // alert(error.response?.data?.message || "Something went wrong!");
             return false
         }
+        return true
     }
     async logout() {
         // cant revoke JWT so just remove it from storage

@@ -1,18 +1,13 @@
 import { useState } from "react";
 import AuthAPI from "../scripts/AuthAPI";
-
-
-
-const onRegisterAttempt = (username, email, password) => {
-  alert(`${username}\n${email}\n${password}`)
-  new AuthAPI().register(username, email, password);
-}
+import { useNavigate } from "react-router";
 
 
 export default function Register() {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ username, setUsername ] = useState("");
+  const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
      setPassword(event.target.value);
@@ -26,12 +21,14 @@ export default function Register() {
     setUsername(event.target.value);
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     if (username === "" || email === "" || password === "")
       return alert("please enter valid username, email and password");
-    onRegisterAttempt(username, email, password);
+    await new AuthAPI().register(username, email, password);
+    setUsername("");
     setEmail("");
     setPassword("");
+    navigate("/");
   }
   return (
     <div className="container-liquid h-100">
