@@ -7,12 +7,12 @@ import { useNavigate } from "react-router";
 // }
 
 export default function Login() {
-  const [ email, setEmail ] = useState("");
-  const [ password, setPassword ] = useState("");
-  const [ warningMessage, setWarningMessage ] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [warningMessage, setWarningMessage] = useState("");
   const navigate = useNavigate();
   const handlePasswordChange = (event) => {
-     setPassword(event.target.value);
+    setPassword(event.target.value);
   };
 
   const handleEmailChange = (event) => {
@@ -28,6 +28,7 @@ export default function Login() {
       return;
     }
     navigate("/");
+    window.location.reload();
     setEmail("");
     setPassword("");
   }
@@ -37,20 +38,20 @@ export default function Login() {
         <div className="col-12 col-md-6 col-lg-4 loginForm">
           <form action={handleFormSubmit}>
             <div className="inputEmail form-group">
-            <label>Email:</label>
-            <input className="form-control" type="email" placeholder="mymail@example.com" 
-                    value={email} onChange={handleEmailChange} required/>
+              <label>Email:</label>
+              <input className="form-control" type="email" placeholder="mymail@example.com"
+                value={email} onChange={handleEmailChange} required />
             </div>
             <div className="inputPassword form-group">
-            <label>Password:</label>
-            <input className="form-control" type="password" minLength={8}
-                    value={password} onChange={handlePasswordChange} required/>
+              <label>Password:</label>
+              <input className="form-control" type="password" minLength={8}
+                value={password} onChange={handlePasswordChange} required />
             </div>
             <div className={`warningMessage form-group ${warningMessage === "" ? "hidden" : ""}`}>
               <label className="text-danger">{warningMessage}</label>
             </div>
             <div className="submit">
-            <input className="btn btn-success" type="submit" value="Sign In"/>
+              <input className="btn btn-success" type="submit" value="Sign In" />
             </div>
           </form>
           <label>Don't have an account? </label>

@@ -4,13 +4,13 @@ import { useNavigate } from "react-router";
 
 
 export default function Register() {
-  const [ email, setEmail ] = useState("");
-  const [ password, setPassword ] = useState("");
-  const [ username, setUsername ] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
-     setPassword(event.target.value);
+    setPassword(event.target.value);
   };
 
   const handleEmailChange = (event) => {
@@ -29,6 +29,7 @@ export default function Register() {
     setEmail("");
     setPassword("");
     navigate("/");
+    window.location.reload();
   }
   return (
     <div className="container-liquid h-100">
@@ -36,22 +37,22 @@ export default function Register() {
         <div className="col-12 col-md-6 col-lg-4 loginForm">
           <form action={handleFormSubmit}>
             <div className="inputUsername form-group">
-            <label>Username:</label>
-            <input className="form-control" type="text" placeholder="MyName" minLength={1} 
-                    value={username} onChange={handleUsernameChange} required/>
+              <label>Username:</label>
+              <input className="form-control" type="text" placeholder="MyName" minLength={1}
+                value={username} onChange={handleUsernameChange} required />
             </div>
             <div className="inputEmail form-group">
-            <label>Email:</label>
-            <input className="form-control" type="email" placeholder="mymail@example.com" 
-                    value={email} onChange={handleEmailChange} required/>
+              <label>Email:</label>
+              <input className="form-control" type="email" placeholder="mymail@example.com"
+                value={email} onChange={handleEmailChange} required />
             </div>
             <div className="inputPassword form-group">
-            <label>Password:</label>
-            <input className="form-control" type="password" minLength={8}
-                    value={password} onChange={handlePasswordChange} required/>
+              <label>Password:</label>
+              <input className="form-control" type="password" minLength={8}
+                value={password} onChange={handlePasswordChange} required />
             </div>
             <div className="submit">
-            <input className="btn btn-success" type="submit" value="Sign In"/>
+              <input className="btn btn-success" type="submit" value="Sign In" />
             </div>
           </form>
           <label>Already have an account? </label>

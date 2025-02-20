@@ -4,43 +4,49 @@ import AuthAPI from "../scripts/AuthAPI";
 import { useNavigate } from "react-router";
 
 export default function LoginPartial() {
-    const authorized = localStorage.getItem("token");
+    const [token, setToken] = useState(localStorage.getItem("token"));
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
+    const refreshToken = () => {
+        setToken(localStorage.getItem("token"));
+    }
     useEffect(() => {
-        const loadData = async () => { 
-            if (authorized) {
-                setUserData(await new AccountAPI().getProfile());
-            }
-        }; 
-  
+        const loadData = async () => {
+            if (!token) return;
+            const profile = await new AccountAPI().getProfile();
+            refreshToken();
+            setUserData(profile.data);
+
+        };
+
         // Call the function 
-        loadData(); 
-    }, [authorized]);
+        loadData();
+    }, [token]);
     const onLogout = () => {
         new AuthAPI().logout();
+        refreshToken();
         navigate("/");
     }
     return (
-        authorized ? (
+        token ? (
             <>
                 <li className="nav-item">
-                    <span className="nav-link disabled">{userData?.username}  <span class="sr-only">(current)</span></span>
+                    <span className="nav-link disabled">{userData?.username}  <span className="sr-only">(current)</span></span>
                 </li>
                 <li className="nav-item">
-                    <span className="nav-link disabled">{userData?.email}  <span class="sr-only">(current)</span></span>
+                    <span className="nav-link disabled">{userData?.email}  <span className="sr-only">(current)</span></span>
                 </li>
                 <li className="nav-item active">
-                    <button className="nav-link btn btn-danger" onClick={onLogout}>Logout <span class="sr-only">(current)</span></button>
+                    <button className="nav-link btn btn-danger" onClick={onLogout}>Logout <span className="sr-only">(current)</span></button>
                 </li>
             </>
         ) : (
             <>
                 <li className="nav-item active">
-                    <a className="nav-link"  href="/login">Login  <span class="sr-only">(current)</span></a>
+                    <a className="nav-link" href="/login">Login  <span className="sr-only">(current)</span></a>
                 </li>
                 <li className="nav-item active">
-                    <a className="nav-link"  href="/register">Register  <span class="sr-only">(current)</span></a>
+                    <a className="nav-link" href="/register">Register  <span className="sr-only">(current)</span></a>
                 </li>
             </>
         )

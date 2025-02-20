@@ -1,4 +1,5 @@
 import axios from "axios";
+import AuthAPI from "./AuthAPI";
 
 export default class AccountAPI {
     constructor() {
@@ -12,13 +13,30 @@ export default class AccountAPI {
             return req;
         });
     }
-
+    /* @return
+     * object { authroized: bool, data: AxiosResponse.data }
+    */
     async getProfile() {
         try {
             const response = await this.API.get('/Profile');
-            return response.data;
+            if (response.status !== 200) {
+                new AuthAPI().logout();
+                return {
+                    authorized: false,
+                    data: null
+                }
+            }
+            return {
+                authorized: true,
+                data: response.data
+            };
         } catch (error) {
             alert(error.response?.data?.message || "Something went wrong!");
+            new AuthAPI().logout();
+            return {
+                authorized: false,
+                data: null
+            }
         }
     }
 

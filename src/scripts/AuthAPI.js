@@ -39,7 +39,6 @@ export default class AuthAPI {
             if (response.status !== 200) {
                 return false
             }
-            console.log(response);
             const token = response.data.token;
             localStorage.setItem("token", token);
         } catch (error) {
@@ -50,6 +49,7 @@ export default class AuthAPI {
     async logout() {
         // cant revoke JWT so just remove it from storage
         localStorage.setItem("token", "");
+
     }
 
 }
