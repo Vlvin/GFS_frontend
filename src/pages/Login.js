@@ -22,7 +22,7 @@ export default function Login() {
   const handleFormSubmit = async () => {
     if (email === "" || password === "")
       return alert("please enter valid email and password");
-    const success = await new AuthAPI().login(email, password);
+    const success = await AuthAPI.login(email, password);
     if (!success) {
       setWarningMessage("Invalid email or password");
       return;
@@ -35,7 +35,7 @@ export default function Login() {
   return (
     <div className="container-liquid h-100">
       <div className="row h-100 justify-content-center align-items-center">
-        <div className="col-12 col-md-6 col-lg-4 loginForm">
+        <div className="col-10 col-md-6 col-lg-4 loginForm">
           <form action={handleFormSubmit}>
             <div className="inputEmail form-group">
               <label>Email:</label>

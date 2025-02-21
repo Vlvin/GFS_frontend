@@ -1,7 +1,7 @@
 import axios from "axios";
 import AuthAPI from "./AuthAPI";
 
-export default class AccountAPI {
+class AccountAPIC {
     constructor() {
         // TODO: change it to an appropriate address or addres getting function
         this.API = axios.create({
@@ -16,28 +16,54 @@ export default class AccountAPI {
     /* @return
      * object { authroized: bool, data: AxiosResponse.data }
     */
-    async getProfile() {
+    async getProfile(id = "default") {
         try {
-            const response = await this.API.get('/Profile');
+            const response = await this.API.get('/Profile', { params: { id: id } });
             if (response.status !== 200) {
-                new AuthAPI().logout();
+                AuthAPI.logout();
                 return {
-                    authorized: false,
+                    success: false,
                     data: null
                 }
             }
             return {
-                authorized: true,
+                success: true,
                 data: response.data
             };
         } catch (error) {
             alert(error.response?.data?.message || "Something went wrong!");
-            new AuthAPI().logout();
+            AuthAPI.logout();
             return {
-                authorized: false,
+                success: false,
+                data: null
+            }
+        }
+    }
+    async getMyProfileData() {
+        try {
+            const response = await this.API.get('/Me');
+            if (response.status !== 200) {
+                AuthAPI.logout();
+                return {
+                    success: false,
+                    data: null
+                }
+            }
+            return {
+                success: true,
+                data: response.data
+            };
+        } catch (error) {
+            alert(error.response?.data?.message || "Something went wrong!");
+            AuthAPI.logout();
+            return {
+                success: false,
                 data: null
             }
         }
     }
 
 }
+
+const AccountAPI = new AccountAPIC();
+export default AccountAPI;

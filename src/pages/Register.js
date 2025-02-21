@@ -24,7 +24,7 @@ export default function Register() {
   const handleFormSubmit = async () => {
     if (username === "" || email === "" || password === "")
       return alert("please enter valid username, email and password");
-    await new AuthAPI().register(username, email, password);
+    await AuthAPI.register(username, email, password);
     setUsername("");
     setEmail("");
     setPassword("");
@@ -34,7 +34,7 @@ export default function Register() {
   return (
     <div className="container-liquid h-100">
       <div className="row h-100 justify-content-center align-items-center">
-        <div className="col-12 col-md-6 col-lg-4 loginForm">
+        <div className="col-10 col-md-6 col-lg-4 loginForm">
           <form action={handleFormSubmit}>
             <div className="inputUsername form-group">
               <label>Username:</label>

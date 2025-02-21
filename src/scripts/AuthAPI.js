@@ -9,7 +9,7 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-export default class AuthAPI {
+class AuthAPIC {
     constructor() {
         // TODO: change it to an appropriate address or addres getting function
         this._url = 'https://api.ghostvwork.freemyip.com/Auth';
@@ -46,6 +46,20 @@ export default class AuthAPI {
         }
         return true
     }
+    async authorize() {
+        try {
+            const response = await API.get('/Authorize');
+            if (response.status == 401) {
+                this.logout();
+                return false;
+            }
+            else if (response.status == 200)
+                return true;
+            else return false; // in cases when server is down
+        } catch {
+            return false;
+        }
+    }
     async logout() {
         // cant revoke JWT so just remove it from storage
         localStorage.setItem("token", "");
@@ -53,3 +67,6 @@ export default class AuthAPI {
     }
 
 }
+
+const AuthAPI = new AuthAPIC();
+export default AuthAPI;

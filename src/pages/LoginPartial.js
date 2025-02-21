@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 export default function LoginPartial() {
     const [token, setToken] = useState(localStorage.getItem("token"));
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({ id: null, username: null, email: null });
     const navigate = useNavigate();
     const refreshToken = () => {
         setToken(localStorage.getItem("token"));
@@ -13,9 +13,9 @@ export default function LoginPartial() {
     useEffect(() => {
         const loadData = async () => {
             if (!token) return;
-            const profile = await new AccountAPI().getProfile();
+            const result = await AccountAPI.getMyProfileData();
             refreshToken();
-            setUserData(profile.data);
+            setUserData(result.data);
 
         };
 
@@ -23,7 +23,7 @@ export default function LoginPartial() {
         loadData();
     }, [token]);
     const onLogout = () => {
-        new AuthAPI().logout();
+        AuthAPI.logout();
         refreshToken();
         navigate("/");
     }
@@ -31,13 +31,10 @@ export default function LoginPartial() {
         token ? (
             <>
                 <li className="nav-item">
-                    <span className="nav-link disabled">{userData?.username}  <span className="sr-only">(current)</span></span>
-                </li>
-                <li className="nav-item">
-                    <span className="nav-link disabled">{userData?.email}  <span className="sr-only">(current)</span></span>
+                    <a className="nav-link disabled" href={`/users/${userData.id}`}>{userData?.username}  <span className="sr-only">(current)</span></a>
                 </li>
                 <li className="nav-item active">
-                    <button className="nav-link btn btn-danger" onClick={onLogout}>Logout <span className="sr-only">(current)</span></button>
+                    <button className="btn btn-outline-danger" onClick={onLogout}>Logout <span className="sr-only">(current)</span></button>
                 </li>
             </>
         ) : (
