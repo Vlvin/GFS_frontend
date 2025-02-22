@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: 'https://api.ghostvwork.freemyip.com/Auth'
+    baseURL: `https://${process.env.REACT_APP_BACKEND_URL}/Auth`
 })
 API.interceptors.request.use((req) => {
     const token = localStorage.getItem("token");
@@ -12,7 +12,6 @@ API.interceptors.request.use((req) => {
 class AuthAPIC {
     constructor() {
         // TODO: change it to an appropriate address or addres getting function
-        this._url = 'https://api.ghostvwork.freemyip.com/Auth';
     }
     async register(username, email, password) {
         try {
