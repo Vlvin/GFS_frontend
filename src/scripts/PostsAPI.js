@@ -5,7 +5,7 @@ class PostsAPIC {
     constructor() {
         // TODO: change it to an appropriate address or addres getting function
         this.API = axios.create({
-            baseURL: `${proccess.env.REACT_APP_BACKEND_PROTOCOL}://${process.env.REACT_APP_BACKEND_URL}/Posts`
+            baseURL: `${process.env.REACT_APP_BACKEND_PROTOCOL}://${process.env.REACT_APP_BACKEND_URL}/Posts`
         })
         this.API.interceptors.request.use((req) => {
             const token = localStorage.getItem("token");
