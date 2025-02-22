@@ -5,7 +5,7 @@ class AccountAPIC {
     constructor() {
         // TODO: change it to an appropriate address or addres getting function
         this.API = axios.create({
-            baseURL: `https://${process.env.REACT_APP_BACKEND_URL}/Home`
+            baseURL: `${process.env.REACT_APP_BACKEND_PROTOCOL}://${process.env.REACT_APP_BACKEND_URL}/Home`
         });
         this.API.interceptors.request.use((req) => {
             const token = localStorage.getItem("token");
