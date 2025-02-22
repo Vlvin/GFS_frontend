@@ -1,8 +1,8 @@
 
 
 export default function Answer({ type = 0, questionTitle = "", model = { text: "" } }) {
-  const answerType = type === 1 ? "checkbox"
-    : type === 2 ? "radio"
+  const answerType = type === 2 ? "checkbox"
+    : type === 1 ? "radio"
       : "edit";
   const token = localStorage.getItem("token");
   return (
