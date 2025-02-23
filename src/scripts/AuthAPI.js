@@ -1,21 +1,22 @@
 import axios from "axios";
-
-const API = axios.create({
-    baseURL: `${process.env.REACT_APP_BACKEND_PROTOCOL}://${process.env.REACT_APP_BACKEND_URL}/Auth`
-})
-API.interceptors.request.use((req) => {
-    const token = localStorage.getItem("token");
-    if (token) req.headers.Authorization = `Bearer ${token}`;
-    return req;
-});
-
 class AuthAPIC {
     constructor() {
+
+        this.API = axios.create({
+            baseURL: `${process.env.REACT_APP_BACKEND_PROTOCOL}://${process.env.REACT_APP_BACKEND_URL}/Auth`
+        })
+        this.API.interceptors.request.use((req) => {
+            const token = localStorage.getItem("token");
+            if (token) req.headers.Authorization = `Bearer ${token}`;
+            return req;
+        });
+
+
         // TODO: change it to an appropriate address or addres getting function
     }
     async register(username, email, password) {
         try {
-            const response = await API.post('/Register', {
+            const response = await this.API.post('/Register', {
                 username: username,
                 email: email,
                 password: password
@@ -31,7 +32,7 @@ class AuthAPIC {
     }
     async login(email, password) {
         try {
-            const response = await API.post('/Login', {
+            const response = await this.API.post('/Login', {
                 email: email,
                 password: password
             });
@@ -47,14 +48,12 @@ class AuthAPIC {
     }
     async authorize() {
         try {
-            const response = await API.get('/Authorize');
-            if (response.status == 401) {
-                this.logout();
+            const response = await this.API.get('/Authorize');
+            if (response.status !== 200) {
+                alert("Something went wrong");
                 return false;
             }
-            else if (response.status == 200)
-                return true;
-            else return false; // in cases when server is down
+            return response.data.authorized; // in cases when server is down
         } catch {
             return false;
         }

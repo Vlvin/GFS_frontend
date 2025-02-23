@@ -9,21 +9,17 @@ const toggleLike = async (likes, liked) => {
 
 export default function Post({ model = { id: -1, author: { id: "", email: "", userName: "" }, title: "", description: "", questions: [], likes: [] } }) {
   const token = localStorage.getItem("token");
-  const [authorized, setAuthorized] = useState(false);
+  const [authorized, setAuthorized] = useState(null);
   const [liked, setLiked] = useState(false);
-  console.log("My Model", model);
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      const auth = async () =>
-        setAuthorized((token == null) || (await AuthAPI.authorize()));
-      auth()
-    }, 1000); // update every 5s
-    return () => clearInterval(intervalId);
-  }, [token]);
+    if (authorized !== null) return;
+    const auth = async () =>
+      setAuthorized((token === null) || (await AuthAPI.authorize()));
+    auth();
+  }, [token, authorized]);
   const onFormSubmit = (e) => {
     e.preventDefault();
 
-    (e.target.getElementsByClassName("form-group").map());
   }
   //           
   return (

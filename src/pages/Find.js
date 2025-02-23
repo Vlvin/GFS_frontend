@@ -6,7 +6,7 @@ import Post from "./Post";
 
 
 export default function Find() {
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams,] = useSearchParams();
   const keyword = searchParams.get("keyword");
   const [posts, setPosts] = useState([]);
   useEffect(() => {

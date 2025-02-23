@@ -7,8 +7,8 @@ import AccountAPI from "../scripts/AccountAPI";
 
 
 export default function Profile() {
-  const [user, setUser] = useState({ id: null, email: null, username: null });
-  const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState(null);
   const [me, setMe] = useState(null);
   const { id } = useParams();
   useEffect(() => {
@@ -21,26 +21,27 @@ export default function Profile() {
       const result = await AccountAPI.getProfile(id);
       if (result.success) {
         setUser(result.data);
-        console.log(result.data.id, id);
       }
     }
     const checkMe = async () => {
       const result = await AccountAPI.getMyProfileData();
       if (result.success) {
-        setMe(result.data.id == id);
+        setMe(result.data.id === id);
       }
     }
-    loadPosts();
-    loadUser();
-    checkMe();
-  }, [id]);
-  console.log(id);
+    if (posts === null)
+      loadPosts();
+    if (user === null)
+      loadUser();
+    if (me === null)
+      checkMe();
+  }, [id, posts, user, me]);
   return (
     <>
-      {me ? <h1>My Page</h1> : me === false ? <h1>Page of {user.username}</h1> : <></>}
+      {me ? <h1>My Page</h1> : me === false ? <h1>Page of {user?.username}</h1> : <></>}
       <h1>Posts:</h1>
       {
-        posts.map((p, key) => <Post model={p} key={key} />)
+        posts?.map((p, key) => <Post model={p} key={key} />)
       }
     </>
   );

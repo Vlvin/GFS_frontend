@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AuthAPI from "../scripts/AuthAPI";
 import { useNavigate } from "react-router";
+import { checkPassword } from "./Register";
 
 // const onLoginAttempt = async (email, password) => {
 //   return await new AuthAPI().login(email, password);
@@ -22,7 +23,8 @@ export default function Login() {
   const handleFormSubmit = async () => {
     if (email === "" || password === "")
       return alert("please enter valid email and password");
-    const success = await AuthAPI.login(email, password);
+
+    const success = checkPassword(password) && await AuthAPI.login(email, password);
     if (!success) {
       setWarningMessage("Invalid email or password");
       return;
